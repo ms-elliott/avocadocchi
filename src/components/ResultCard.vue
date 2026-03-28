@@ -1,10 +1,11 @@
 <script setup>
-defineProps({ result: Boolean })
+defineProps({ result: Boolean, confidence: Number })
 </script>
 
 <template>
   <div :class="['card', result ? 'ripe' : 'unripe']">
-    {{ result ? '熟れてる！' : 'まだ早い' }}
+    <h2>{{ result ? '熟れてる！' : 'まだ早い' }}</h2>
+    <p>信頼度 {{ confidence }}</p>
   </div>
 </template>
 

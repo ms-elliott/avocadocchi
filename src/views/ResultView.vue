@@ -1,6 +1,8 @@
 <script setup>
 import { ref, watch } from 'vue'
 import ResultCard from '../components/ResultCard.vue'
+import ResultComment from '@/components/ResultComment.vue'
+import AvocadoTip from '@/components/AvocadoTip.vue'
 
 const props = defineProps({ result: Boolean })
 const emit = defineEmits(['retry'])
@@ -28,8 +30,27 @@ watch(
 <template>
   <div class="result">
     <transition name="pop">
-      <ResultCard v-if="showResult" :result="result" />
+      <ResultCard v-if="showResult" :result="result.isRipe" :confidence="result.confidence" />
+    </transition>
+    <transition name="fade">
+      <ResultComment v-if="showComment" :result="result" />
+    </transition>
+    <transition name="fade">
+      <AvocadoTip v-if="showTip" :tip="tip" />
     </transition>
     <button @click="emit('retry')">もう一度</button>
   </div>
 </template>
+
+<style scoped>
+.result {
+  text-align: center;
+  padding: 24px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  border-radius: 12px;
+}
+</style>

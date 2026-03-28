@@ -3,10 +3,9 @@ import ImageUploader from '../components/ImageUploader.vue'
 import { useClassifier } from '../composables/useClassifier'
 
 const emit = defineEmits(['predicted'])
+const { predict } = useClassifier()
 
-const { predict, loading } = useClassifier()
-
-const handleImage = async (file) => {
+const handlePredict = async (file) => {
   const result = await predict(file)
   emit('predicted', result)
 }
@@ -17,9 +16,7 @@ const handleImage = async (file) => {
     <div class="logo">🥑</div>
     <h1>アボカドっち</h1>
 
-    <ImageUploader @selected="handleImage" />
-
-    <div v-if="loading" class="loading">判定中...</div>
+    <ImageUploader @predict="handlePredict" />
   </div>
 </template>
 

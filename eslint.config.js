@@ -27,4 +27,9 @@ export default defineConfig([
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
   skipFormatting,
+  {
+    rules: {
+      semi: ['error', 'never'],
+    },
+  },
 ])
