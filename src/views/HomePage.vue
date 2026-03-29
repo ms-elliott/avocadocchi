@@ -1,43 +1,34 @@
 <script setup>
-import ImageUploader from '../components/ImageUploader.vue'
-import { useClassifier } from '../composables/useClassifier'
+import { ref, onMounted } from 'vue'
+import { loadModel, predict } from '../composables/useClassifier'
 
-const emit = defineEmits(['predicted'])
-const { predict } = useClassifier()
+const image = ref(null)
+const result = ref('')
 
-const handlePredict = async (file) => {
-  const result = await predict(file)
-  emit('predicted', result)
+onMounted(async () => {
+  await loadModel()
+})
+
+const handleChange = (e) => {
+  const file = e.target.files[0]
+  const img = new Image()
+  img.src = URL.createObjectURL(file)
+
+  img.onload = async () => {
+    image.value = img
+    const pred = await predict(img)
+
+    // 2クラス想定
+    if (pred[0] > pred[1]) {
+      result.value = '未熟 🥑'
+    } else {
+      result.value = '食べ頃 😋'
+    }
+  }
 }
 </script>
 
 <template>
-  <div class="home">
-    <div class="logo">🥑</div>
-    <h1>アボカドっち</h1>
-
-    <ImageUploader @predict="handlePredict" />
-  </div>
+  <input type="file" @change="handleChange" />
+  <p>{{ result }}</p>
 </template>
-
-<style scoped>
-.home {
-  text-align: center;
-  padding: 24px;
-}
-
-.logo {
-  font-size: 64px;
-  animation: float 3s infinite;
-}
-
-@keyframes float {
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-.loading {
-  margin-top: 16px;
-}
-</style>
