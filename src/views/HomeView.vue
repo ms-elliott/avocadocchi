@@ -100,22 +100,23 @@ export default {
 <template>
   <div class="screen home-screen">
     <!-- タイトルエリア（入場アニメーション付き） -->
-    <div class="title-area" :class="{ animated: titleAnimated }">
-      <AvoMascot
+    <!-- <div class="title-area" :class="{ animated: titleAnimated }"> -->
+    <img src="/public/img/avo_hello.png/" class="mascot" />
+    <!-- <AvoMascot
         mode="home"
         :is-blinking="isBlinking"
         :is-talking="isTalking"
         :is-waving="isWaving"
         :message="mascotMessage"
         @talk="onMascotTalk"
-      />
-      <h1 class="app-title">
-        <span class="title-avo">アボカ</span>
-        <span class="title-dotti">どっち</span>
-        <span class="title-mark">!?</span>
-      </h1>
-      <p class="app-catch">熟れてる？まだ？<br />写真を撮ってAIに聞いてみよう！</p>
-    </div>
+      /> -->
+    <h1 class="app-title">
+      <span class="title-avo">アボカ</span>
+      <span class="title-dotti">どっち</span>
+      <span class="title-mark">!?</span>
+    </h1>
+    <p class="app-catch">熟れてる？まだ？<br />写真を撮ってAIに聞いてみよう！</p>
+    <!-- </div> -->
 
     <!-- 画像アップロード -->
     <UploadZone v-model="previewUrl" />
@@ -166,6 +167,86 @@ export default {
 .title-area.animated {
   opacity: 1;
   transform: translateY(0);
+}
+
+.mascot {
+  height: 150px;
+  animation:
+    poyon 1.3s forwards,
+    korokoro 8s 1.3s infinite;
+}
+
+.poyon {
+  animation: poyon 1.5s linear 0s 1;
+}
+@keyframes poyon {
+  0% {
+    transform: scale(0.8, 1.4) translate(0%, -100%);
+  }
+  10% {
+    transform: scale(0.8, 1.4) translate(0%, -15%);
+  }
+  20% {
+    transform: scale(1.4, 0.6) translate(0%, 30%);
+  }
+  30% {
+    transform: scale(0.9, 1.1) translate(0%, -10%);
+  }
+  40% {
+    transform: scale(0.95, 1.2) translate(0%, -30%);
+  }
+  50% {
+    transform: scale(0.95, 1.2) translate(0%, -10%);
+  }
+  60% {
+    transform: scale(1.1, 0.9) translate(0%, 5%);
+  }
+  70% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+  100% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+}
+
+.korokoro {
+  animation: korokoro 2.5s linear infinite;
+}
+@keyframes korokoro {
+  0%,
+  88% {
+    transform: translate(0%, 0%);
+  }
+  91% {
+    transform: translate(10%, 0%) rotate(10deg);
+  }
+  92% {
+    transform: translate(20%, 0%) rotate(20deg);
+  }
+  93% {
+    transform: translate(-10%, 0%) rotate(-10deg);
+  }
+  94% {
+    transform: translate(-15%, 0%) rotate(-15deg);
+  }
+  95% {
+    transform: translate(10%, 0%) rotate(10deg);
+  }
+  96% {
+    transform: translate(15%, 0%) rotate(15deg);
+  }
+  97% {
+    transform: translate(-5%, 0%) rotate(-5deg);
+  }
+  98% {
+    transform: translate(-7%, 0%) rotate(-7deg);
+  }
+  99% {
+    transform: translate(0%, 0%) rotate(0deg);
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(0deg);
+  }
 }
 
 .app-title {
