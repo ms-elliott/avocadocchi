@@ -1,5 +1,4 @@
 <script>
-import AvoMascot from '../components/AvoMascot.vue'
 import UploadZone from '../components/UploadZone.vue'
 import TechBadge from '../components/TechBadge.vue'
 import { MASCOT_MESSAGES, pickRandom } from '../constants/constants.js'
@@ -15,7 +14,7 @@ const MASCOT_MESSAGE_DURATION = 2500
 
 export default {
   name: 'HomeScreen',
-  components: { AvoMascot, UploadZone, TechBadge },
+  components: { UploadZone, TechBadge },
   emits: ['predict'],
 
   props: {
@@ -110,11 +109,15 @@ export default {
         :message="mascotMessage"
         @talk="onMascotTalk"
       /> -->
-    <h1 class="app-title">
+    <div class="relative">
+      <img src="/public/img/title_arrow.png" class="title_parts" width="100%" />
+      <img src="/public/img/title.png" class="title_parts absolute" width="80%" />
+    </div>
+    <!-- <h1 class="app-title">
       <span class="title-avo">アボカ</span>
       <span class="title-dotti">どっち</span>
       <span class="title-mark">!?</span>
-    </h1>
+    </h1> -->
     <p class="app-catch">熟れてる？まだ？<br />写真を撮ってAIに聞いてみよう！</p>
     <!-- </div> -->
 
@@ -171,9 +174,19 @@ export default {
 
 .mascot {
   height: 150px;
-  animation:
-    poyon 1.3s forwards,
-    korokoro 8s 1.3s infinite;
+  animation: float 3s ease-in-out infinite;
+  /* poyon 1.5s forwards 2s,
+    korokoro 6s infinite 8s; */
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .poyon {
@@ -181,6 +194,7 @@ export default {
 }
 @keyframes poyon {
   0% {
+    opacity: 1;
     transform: scale(0.8, 1.4) translate(0%, -100%);
   }
   10% {
@@ -205,6 +219,7 @@ export default {
     transform: scale(1, 1) translate(0%, 0%);
   }
   100% {
+    opacity: 1;
     transform: scale(1, 1) translate(0%, 0%);
   }
 }
@@ -246,6 +261,25 @@ export default {
   }
   100% {
     transform: translate(0%, 0%) rotate(0deg);
+  }
+}
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+  top: 0px;
+  left: 40px;
+}
+
+.title_parts {
+  opacity: 0;
+  animation: fadeIn 2.5s forwards 1s;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
 }
 
