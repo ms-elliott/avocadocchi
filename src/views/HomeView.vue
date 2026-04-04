@@ -174,9 +174,11 @@ export default {
 
 .mascot {
   height: 150px;
-  animation: float 3s ease-in-out infinite;
-  /* poyon 1.5s forwards 2s,
-    korokoro 6s infinite 8s; */
+  opacity: 0;
+  animation:
+  /* float 3s ease-in-out infinite; */
+    poyon 1.5s forwards 3s,
+    korokoro 5s infinite 4.5s;
 }
 
 @keyframes float {
@@ -275,11 +277,31 @@ export default {
 
 .title_parts {
   opacity: 0;
-  animation: fadeIn 2.5s forwards 1s;
+  animation: fadeInSide 1.5s forwards 1s;
 }
 @keyframes fadeIn {
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fadeInSide {
+  0% {
+    opacity: 1;
+    transform: translateX(400px);
+  }
+  40% {
+    transform: translateX(-100px);
+  }
+  88% {
+    transform: translateX(50px);
+  }
+  98% {
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
