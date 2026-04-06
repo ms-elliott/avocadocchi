@@ -1,4 +1,7 @@
-@import './base.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* @import './base.css'; */
 
 #app {
   max-width: 1280px;
@@ -42,4 +45,72 @@ a,
 .fade-up-enter-from {
   opacity: 0;
   transform: translateY(10px);
+}
+
+/* 浮遊 */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 2s ease-in-out infinite;
+}
+
+/* タイトル登場 */
+@keyframes titleFade {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-title {
+  animation: titleFade 0.6s ease;
+}
+
+/* キャラ登場（ポン） */
+@keyframes entryPop {
+  0% {
+    transform: scale(0.5) translateY(20px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1) translateY(-10px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-entry {
+  animation:
+    entryPop 2s ease 1s forwards,
+    float 4s ease-in-out 4s infinite;
+}
+
+/* フェード */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 2s ease 4s forwards;
 }
