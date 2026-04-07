@@ -19,7 +19,7 @@ const handleStart = async () => {
   state.value = 'loading'
 
   setTimeout(() => {
-    result.value = Math.random() > 0.5 ? 'ripe' : 'unripe'
+    result.value = Math.random() > 0.5 ? 'unripe' : 'ripe'
     state.value = 'result'
   }, 2000)
 }

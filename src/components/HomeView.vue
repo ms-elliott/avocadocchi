@@ -8,10 +8,14 @@
       class="w-2/3 mx-auto animate-entry delay-200 animate-float opacity-0"
     />
 
-    <p class="my-4 opacity-0 animate-fadeIn delay-1000">このアボカド、どっち？</p>
+    <p class="my-4 opacity-0 animate-fadeIn delay-1000">
+      アボカドが熟れているかどうかを<br />AIが画像から判定するよ
+    </p>
 
-    <div v-if="preview" class="mb-4">
-      <img :src="preview" class="rounded-xl w-full animate-fadeIn" />
+    <div>
+      <div v-if="preview" class="mb-4">
+        <img :src="preview" class="rounded-xl w-full animate-fadeIn" />
+      </div>
     </div>
 
     <div class="flex flex-col gap-3">
