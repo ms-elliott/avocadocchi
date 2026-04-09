@@ -8,10 +8,27 @@
       class="w-2/3 mx-auto animate-entry delay-200 animate-float opacity-0"
     />
 
-    <p class="my-4 opacity-0 animate-fadeIn delay-1000">
+    <p class="my-4 text-lg opacity-0 animate-fadeIn delay-1000">
       アボカドが熟れているかどうかを<br />AIが画像から判定するよ
     </p>
 
+    <div class="uploader">
+      <!-- 画像未選択 -->
+      <div v-if="!preview" class="select">
+        <input type="file" accept="image/*" @change="handleFile" />
+      </div>
+
+      <!-- プレビュー -->
+      <transition name="fade">
+        <div v-if="preview" class="preview">
+          <img :src="preview" style="width: 200px" />
+
+          <button class="predict-btn" @click="handlePredict">判定する</button>
+        </div>
+      </transition>
+    </div>
+
+    <!-- <p>{{ preview }}</p> -->
     <div>
       <div v-if="preview" class="mb-4">
         <img :src="preview" class="rounded-xl w-full animate-fadeIn" />
@@ -53,3 +70,10 @@ const onFileChange = (e) => {
   emit('start', file)
 }
 </script>
+
+<style scoped>
+.preview img {
+  width: 100%;
+  border-radius: 16px;
+}
+</style>
