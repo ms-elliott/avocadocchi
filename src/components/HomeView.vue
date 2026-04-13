@@ -28,12 +28,14 @@
       </transition>
     </div>
 
+    <UploadZone />
+
     <!-- <p>{{ preview }}</p> -->
-    <div>
+    <!-- <div>
       <div v-if="preview" class="mb-4">
         <img :src="preview" class="rounded-xl w-full animate-fadeIn" />
       </div>
-    </div>
+    </div> -->
 
     <div class="flex flex-col gap-3">
       <button class="btn" @click="openCamera">📷 撮影する</button>
@@ -54,6 +56,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import UploadZone from './UploadZone.vue'
 
 const emit = defineEmits(['start'])
 const preview = ref(null)
