@@ -14,22 +14,22 @@
 
     <div class="uploader">
       <!-- 画像未選択 -->
-      <div v-if="!preview" class="select">
+      <!-- <div v-if="!preview" class="select">
         <input type="file" accept="image/*" @change="handleFile" />
-      </div>
+      </div> -->
 
       <!-- プレビュー -->
-      <transition name="fade">
+      <!-- <transition name="fade">
         <div v-if="preview" class="preview">
           <img :src="preview" style="width: 200px" />
 
           <button class="predict-btn" @click="handlePredict">判定する</button>
         </div>
-      </transition>
+      </transition> -->
     </div>
 
     <UploadZone />
-
+    <ImageUploader />
     <!-- <p>{{ preview }}</p> -->
     <!-- <div>
       <div v-if="preview" class="mb-4">
@@ -37,10 +37,10 @@
       </div>
     </div> -->
 
-    <div class="flex flex-col gap-3">
+    <!-- <div class="flex flex-col gap-3">
       <button class="btn" @click="openCamera">📷 撮影する</button>
       <button class="btn sub" @click="openFile">🖼 画像をえらぶ</button>
-    </div>
+    </div> -->
 
     <input
       type="file"
@@ -57,6 +57,7 @@
 <script setup>
 import { ref } from 'vue'
 import UploadZone from './UploadZone.vue'
+import ImageUploader from './ImageUploader.vue'
 
 const emit = defineEmits(['start'])
 const preview = ref(null)
