@@ -35,7 +35,6 @@ const handlePredict = async () => {
     <transition name="fade">
       <div v-if="preview" class="preview">
         <img :src="preview" style="width: 200px" />
-
         <button class="predict-btn" @click="handlePredict">判定する</button>
       </div>
     </transition>
