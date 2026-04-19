@@ -31,10 +31,36 @@
         <p class="upload-sub">ドラッグ＆ドロップもOK</p>
       </div>
     </transition>
+
+    <!-- プレビュー -->
+    <!-- <transition name="fade">
+      <div v-if="preview" class="preview">
+        <img :src="preview" style="width: 200px" />
+        <button class="predict-btn" @click="handlePredict">判定する</button>
+      </div>
+    </transition> -->
+    <!-- <div v-if="modelValue" key="preview" class="preview-inner">
+      <img :src="modelValue" class="preview-img" alt="preview" />
+      <div class="preview-overlay"><span>📷 変える</span></div>
+    </div> -->
+
+    <!-- <div v-else key="empty" class="upload-empty">
+      <div class="upload-icon-wrap">
+        <span class="upload-camera">📸</span>
+        <div class="upload-ring ring1"></div>
+        <div class="upload-ring ring2"></div>
+      </div>
+      <p class="upload-main">タップして写真を撮る</p>
+      <p class="upload-sub">ドラッグ＆ドロップもOK</p>
+    </div> -->
   </div>
 </template>
 
 <script>
+// import { ref } from 'vue'
+
+// const preview = ref(null)
+
 export default {
   name: 'UploadZone',
   emits: ['update:modelValue'],

@@ -9,7 +9,7 @@
     />
 
     <p class="my-4 text-lg opacity-0 animate-fadeIn delay-1000">
-      アボカドが熟れているかどうかを<br />AIが画像から判定するよ
+      アボカドが熟れているか<br />AIが画像から判定するよ
     </p>
 
     <div class="uploader">
@@ -28,7 +28,7 @@
       </transition> -->
     </div>
 
-    <UploadZone />
+    <!-- <UploadZone /> -->
     <ImageUploader />
     <!-- <p>{{ preview }}</p> -->
     <!-- <div>
@@ -56,7 +56,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import UploadZone from './UploadZone.vue'
+// import UploadZone from './UploadZone.vue'
 import ImageUploader from './ImageUploader.vue'
 
 const emit = defineEmits(['start'])
@@ -64,8 +64,8 @@ const preview = ref(null)
 const cameraInput = ref(null)
 const fileInput = ref(null)
 
-const openCamera = () => cameraInput.value.click()
-const openFile = () => fileInput.value.click()
+// const openCamera = () => cameraInput.value.click()
+// const openFile = () => fileInput.value.click()
 
 const onFileChange = (e) => {
   const file = e.target.files[0]
