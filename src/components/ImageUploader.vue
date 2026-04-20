@@ -1,11 +1,18 @@
 <script setup>
 import { ref } from 'vue'
 
-const emit = defineEmits(['predict'])
+// const emit = defineEmits(['predict'])
 
 const preview = ref(null)
 const file = ref(null)
-const loading = ref(false)
+// const loading = ref(false)
+const modelValue = { type: String, default: null }
+const isDragging = false
+const fileInput = ref(null)
+
+function triggerFileInput() {
+  fileInput.value.click()
+}
 
 const handleFile = (e) => {
   file.value = e.target.files[0]
@@ -15,13 +22,13 @@ const handleFile = (e) => {
   }
 }
 
-const handlePredict = async () => {
-  loading.value = true
+// const handlePredict = async () => {
+//   loading.value = true
 
-  await new Promise((r) => setTimeout(r, 1200))
+//   await new Promise((r) => setTimeout(r, 1200))
 
-  emit('predict', file.value)
-}
+//   emit('predict', file.value)
+// }
 </script>
 
 <template>
@@ -39,7 +46,7 @@ const handlePredict = async () => {
       accept="image/*"
       capture="environment"
       class="hidden"
-      @change="onFileChange"
+      @change="handleFile"
     />
 
     <transition name="fade" mode="out-in">
