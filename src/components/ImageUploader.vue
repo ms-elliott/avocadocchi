@@ -4,23 +4,39 @@ import { ref } from 'vue'
 // const emit = defineEmits(['predict'])
 
 const preview = ref(null)
-const file = ref(null)
+// const file = ref(null)
 // const loading = ref(false)
-const modelValue = { type: String, default: null }
+const modelValue = ref(null)
 const isDragging = false
 const fileInput = ref(null)
+const emit = defineEmits(['update:modelValue'])
 
 function triggerFileInput() {
   fileInput.value.click()
 }
 
-const handleFile = (e) => {
-  file.value = e.target.files[0]
-
-  if (file.value) {
-    preview.value = URL.createObjectURL(file.value)
+function onFileChange(e) {
+  const f = e.target.files[0]
+  if (f) {
+    loadPreview(f)
   }
 }
+
+function loadPreview(file) {
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    emit('update:modelValue', e.target.result)
+  }
+  reader.readAsDataURL(file)
+}
+
+// const handleFile = (e) => {
+//   file.value = e.target.files[0]
+
+//   if (file.value) {
+//     preview.value = URL.createObjectURL(file.value)
+//   }
+// }
 
 // const handlePredict = async () => {
 //   loading.value = true
@@ -46,7 +62,7 @@ const handleFile = (e) => {
       accept="image/*"
       capture="environment"
       class="hidden"
-      @change="handleFile"
+      @change="onFileChange"
     />
 
     <transition name="fade" mode="out-in">
