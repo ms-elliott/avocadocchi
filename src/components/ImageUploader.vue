@@ -1,15 +1,20 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
-// const emit = defineEmits(['predict'])
+const props = defineProps({ modelvalue: String })
 
-const preview = ref(null)
-// const file = ref(null)
-// const loading = ref(false)
-const modelValue = ref(null)
-const isDragging = false
-const fileInput = ref(null)
 const emit = defineEmits(['update:modelValue'])
+const preview = ref(null)
+const isDragging = ref(false)
+const fileInput = ref(null)
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    preview.value = val
+  },
+  { immediate: true },
+)
 
 function triggerFileInput() {
   fileInput.value.click()
@@ -17,17 +22,22 @@ function triggerFileInput() {
 
 function onFileChange(e) {
   const f = e.target.files[0]
-  if (f) {
-    loadPreview(f)
-  }
+  if (f) loadPreview(f)
 }
 
 function loadPreview(file) {
   const reader = new FileReader()
   reader.onload = (e) => {
+    preview.value = e.target.result
     emit('update:modelValue', e.target.result)
   }
   reader.readAsDataURL(file)
+}
+
+function onDrop(e) {
+  isDragging.value = false
+  const f = e.datatransfer.files[0]
+  if (f) loadPreview(f)
 }
 
 // const handleFile = (e) => {
@@ -50,7 +60,7 @@ function loadPreview(file) {
 <template>
   <div
     class="upload-zone"
-    :class="{ dragging: isDragging, 'has-image': modelValue }"
+    :class="{ dragging: isDragging, 'has-image': preview }"
     @dragover.prevent="isDragging = true"
     @dragleave.prevent="isDragging = false"
     @drop.prevent="onDrop"
@@ -66,6 +76,7 @@ function loadPreview(file) {
     />
 
     <transition name="fade" mode="out-in">
+      <!-- 未選択 -->
       <div v-if="!preview" key="empty" class="upload-empty">
         <div class="upload-icon-wrap">
           <span class="upload-camera">📸</span>
@@ -75,8 +86,10 @@ function loadPreview(file) {
         <p class="upload-main">タップして写真を撮る</p>
         <p class="upload-sub">ドラッグ＆ドロップもOK</p>
       </div>
+
+      <!-- プレビュー -->
       <div v-else key="preview" class="preview-inner">
-        <img :src="modelValue" class="preview-img" alt="preview" />
+        <img :src="preview" class="preview-img" alt="preview" />
         <div class="preview-overlay"><span>📷 変える</span></div>
       </div>
     </transition>
