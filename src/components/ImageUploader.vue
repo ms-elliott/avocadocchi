@@ -7,6 +7,7 @@ const emit = defineEmits(['update:modelValue'])
 const preview = ref(null)
 const isDragging = ref(false)
 const fileInput = ref(null)
+const loading = ref(false)
 
 watch(
   () => props.modelValue,
@@ -48,13 +49,13 @@ function onDrop(e) {
 //   }
 // }
 
-// const handlePredict = async () => {
-//   loading.value = true
+const handlePredict = async () => {
+  loading.value = true
 
-//   await new Promise((r) => setTimeout(r, 1200))
+  await new Promise((r) => setTimeout(r, 1200))
 
-//   emit('predict', file.value)
-// }
+  emit('predict', fileInput.value)
+}
 </script>
 
 <template>
@@ -93,30 +94,12 @@ function onDrop(e) {
         <div class="preview-overlay"><span>📷 変える</span></div>
       </div>
     </transition>
-
-    <!-- <div class="uploader"> -->
-    <!-- 画像未選択 -->
-    <!-- <div v-if="!preview" class="select">
-        <input type="file" accept="image/*" @change="handleFile" />
-      </div> -->
-
-    <!-- プレビュー -->
-    <!-- <transition name="fade">
-        <div v-if="preview" class="preview">
-          <img :src="preview" style="width: 200px" />
-          <button class="predict-btn" @click="handlePredict">判定する</button>
-        </div>
-      </transition> -->
-
-    <!-- ローディング -->
-    <!-- <transition name="fade">
-        <div v-if="loading" class="loading">
-          <div class="avocado">🥑</div>
-          <p>判定中...</p>
-        </div>
-      </transition> -->
-    <!-- </div> -->
   </div>
+  <transition name="fade" mode="out-in">
+    <div v-if="preview">
+      <button class="predict-btn" @click="handlePredict">判定する</button>
+    </div>
+  </transition>
 </template>
 
 <style scoped>
