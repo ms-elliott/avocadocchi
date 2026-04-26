@@ -3,21 +3,27 @@
     <!-- タイトル -->
     <img src="/img/title.png" class="w-full mb-4 animate-title" />
     <!-- キャラクター -->
-    <img
-      src="/img/avo_hello.png"
-      class="w-2/3 mx-auto animate-entry delay-200 animate-float opacity-0"
-    />
-
-    <p class="my-4 text-lg opacity-0 animate-fadeIn delay-1000">
-      アボカドが熟れているか<br />AIが画像から判定するよ
-    </p>
-
-    <ImageUploader />
+    <div v-if="!isLoading" key="uploader">
+      <MascotHello />
+      <ImageUploader @startLoading="startLoading" />
+    </div>
+    <div v-else key="loading">
+      <LoadingView />
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import ImageUploader from './ImageUploader.vue'
+import MascotHello from './MascotHello.vue'
+import LoadingView from './LoadingView.vue'
+
+const isLoading = ref(false)
+
+function startLoading() {
+  isLoading.value = true
+}
 </script>
 
 <style scoped>

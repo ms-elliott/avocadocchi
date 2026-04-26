@@ -3,11 +3,11 @@ import { ref, watch } from 'vue'
 
 const props = defineProps({ modelvalue: String })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'predict', 'startLoading'])
 const preview = ref(null)
 const isDragging = ref(false)
 const fileInput = ref(null)
-const loading = ref(false)
+// const loading = ref(false)
 
 watch(
   () => props.modelValue,
@@ -50,7 +50,8 @@ function onDrop(e) {
 // }
 
 const handlePredict = async () => {
-  loading.value = true
+  // loading.value = true
+  emit('startLoading')
 
   await new Promise((r) => setTimeout(r, 1200))
 
