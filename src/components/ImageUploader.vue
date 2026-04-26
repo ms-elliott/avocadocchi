@@ -1,9 +1,9 @@
 <script setup>
 import { ref, watch } from 'vue'
 
-const props = defineProps({ modelvalue: String })
+const props = defineProps({ modelValue: String, status: String })
 
-const emit = defineEmits(['update:modelValue', 'predict', 'startLoading'])
+const emit = defineEmits(['update:modelValue', 'predict'])
 const preview = ref(null)
 const isDragging = ref(false)
 const fileInput = ref(null)
@@ -41,21 +41,8 @@ function onDrop(e) {
   if (f) loadPreview(f)
 }
 
-// const handleFile = (e) => {
-//   file.value = e.target.files[0]
-
-//   if (file.value) {
-//     preview.value = URL.createObjectURL(file.value)
-//   }
-// }
-
-const handlePredict = async () => {
-  // loading.value = true
-  emit('startLoading')
-
-  await new Promise((r) => setTimeout(r, 1200))
-
-  emit('predict', fileInput.value)
+const handlePredict = () => {
+  emit('predict')
 }
 </script>
 
@@ -66,7 +53,7 @@ const handlePredict = async () => {
     @dragover.prevent="isDragging = true"
     @dragleave.prevent="isDragging = false"
     @drop.prevent="onDrop"
-    @click="triggerFileInput"
+    @click="props.status === 'idle' && triggerFileInput()"
   >
     <input
       ref="fileInput"
@@ -92,13 +79,15 @@ const handlePredict = async () => {
       <!-- プレビュー -->
       <div v-else key="preview" class="preview-inner">
         <img :src="preview" class="preview-img" alt="preview" />
-        <div class="preview-overlay"><span>📷 変える</span></div>
+        <div v-if="props.status === 'idle'" class="preview-overlay"><span>📷 変える</span></div>
       </div>
     </transition>
   </div>
   <transition name="fade" mode="out-in">
     <div v-if="preview">
-      <button class="predict-btn" @click="handlePredict">判定する</button>
+      <button class="predict-btn" @click="handlePredict" :disabled="props.status !== 'idle'">
+        判定する
+      </button>
     </div>
   </transition>
 </template>

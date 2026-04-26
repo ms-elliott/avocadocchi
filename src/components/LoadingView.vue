@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p class="text-lg">うーん…判定中</p>
     <img src="/img/avo_thinking.png" class="w-2/3 mx-auto animate-thinking" />
+    <p class="text-lg">うーん…判定中</p>
     <p class="text-2xl animate-blink">{{ dots }}</p>
   </div>
 </template>
