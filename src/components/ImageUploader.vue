@@ -22,8 +22,16 @@ function triggerFileInput() {
 }
 
 function onFileChange(e) {
-  const f = e.target.files[0]
-  if (f) loadPreview(f)
+  const file = e.target.files[0]
+
+  if (!file) return
+
+  const reader = new FileReader()
+  reader.onload = (ev) => {
+    preview.value = ev.target.result
+    emit('update:modelValue', preview.value)
+  }
+  reader.readAsDataURL(file)
 }
 
 function loadPreview(file) {
