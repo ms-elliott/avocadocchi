@@ -40,8 +40,7 @@ let model = null
 onMounted(async () => {
   try {
     await tf.setBackend('webgl')
-    // model = await tf.loadLayersModel('/model/model.json')
-    model = await tf.loadLayersModel('/model/model.json')
+    model = await tf.loadGraphModel('/model/model.json')
     console.log('model loaded')
   } catch (e) {
     console.error(e)
@@ -65,23 +64,33 @@ async function handlePredict() {
   status.value = 'loading'
 
   try {
-    if (!image.value) {
-      throw new Error('画像がありません')
-    }
+    if (!image.value) throw new Error('画像がありません')
 
-    // ★ここでちゃんと待つ
     const imgEl = await loadImage(image.value)
-
     const tensor = preprocess(imgEl)
 
-    const pred = model.predict(tensor)
-    const data = await pred.data()
+    const pred = model.execute(tensor)
 
-    const maxIndex = data.indexOf(Math.max(...data))
+    // ✅ 出力を確認しながら処理
+    let data
+    if (Array.isArray(pred)) {
+      // 複数出力の場合は最後のテンソルを使う
+      data = await pred[pred.length - 1].data()
+    } else {
+      data = await pred.data()
+    }
 
-    console.log(data)
-    result.value = maxIndex === 1 ? 'ripe' : 'notyet'
+    console.log('raw data:', data)
+    console.log('length:', data.length)
 
+    // ✅ 2クラス分類として処理
+    // data[0] = unripe(未熟), data[1] = ripe(完熟)
+    const unripeScore = data[data.length - 2]
+    const ripeScore = data[data.length - 1]
+
+    console.log('unripe:', unripeScore, 'ripe:', ripeScore)
+
+    result.value = ripeScore > unripeScore ? 'ripe' : 'notyet'
     status.value = 'result'
   } catch (e) {
     errorMessage.value = e.message
