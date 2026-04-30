@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 const props = defineProps({ modelValue: String, status: String })
 
@@ -43,9 +43,27 @@ function loadPreview(file) {
   reader.readAsDataURL(file)
 }
 
+const uploadZone = ref(null)
+
+onMounted(() => {
+  uploadZone.value.addEventListener(
+    'drop',
+    (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      isDragging.value = false
+      const f = e.dataTransfer.files[0]
+      console.log('file:', f)
+      if (f) loadPreview(f)
+    },
+    true,
+  ) // ✅ キャプチャフェーズで捕捉
+})
+
 function onDrop(e) {
   isDragging.value = false
-  const f = e.datatransfer.files[0]
+  const f = e.dataTransfer.files[0]
+  console.log('file:', f)
   if (f) loadPreview(f)
 }
 
@@ -56,13 +74,22 @@ const handlePredict = () => {
 
 <template>
   <div
+    ref="uploadZone"
+    class="upload-zone"
+    :class="{ dragging: isDragging, 'has-image': preview }"
+    @dragover.prevent.stop="isDragging = true"
+    @dragleave.prevent="isDragging = false"
+    @drop.prevent.stop="onDrop"
+    @click="props.status === 'idle' && triggerFileInput()"
+  >
+    <!-- <div
     class="upload-zone"
     :class="{ dragging: isDragging, 'has-image': preview }"
     @dragover.prevent="isDragging = true"
     @dragleave.prevent="isDragging = false"
-    @drop.prevent="onDrop"
+    @drop.prevent.stop="onDrop"
     @click="props.status === 'idle' && triggerFileInput()"
-  >
+  > -->
     <input
       ref="fileInput"
       type="file"
@@ -211,7 +238,7 @@ const handlePredict = () => {
 .preview-img {
   width: 100%;
   max-height: 260px;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 .preview-overlay {

@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="result === 'ripe' ? 'bg-yellow-100' : 'bg-green-100'"
-    class="p-4 rounded-xl animate-fadeIn"
-  >
+  <div class="p-4 rounded-xl animate-fadeIn">
     <!-- <h2 class="text-2xl mb-4 animate-slideUp">
       {{ result === 'ripe' ? '食べごろ！！🥑' : 'まだかたいかも…' }}
     </h2> -->
