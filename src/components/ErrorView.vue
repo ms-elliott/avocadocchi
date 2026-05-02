@@ -1,22 +1,122 @@
-<script setup>
-const props = defineProps({
-  message: String,
-})
+<template>
+  <div class="error-wrap">
+    <!-- マスコット -->
+    <div class="mascot-wrap">
+      <img src="/img/avo_alart.png" class="mascot-img" />
+      <div class="mascot-shadow"></div>
+    </div>
 
+    <!-- メッセージ -->
+    <div class="error-card">
+      <p class="error-title">あれれ…😵</p>
+      <p class="error-message">{{ props.message }}</p>
+    </div>
+
+    <!-- ボタン -->
+    <button @click="emit('retry')" class="retry-btn">🔄 もう一度試す</button>
+  </div>
+</template>
+
+<script setup>
+const props = defineProps({ message: String })
 const emit = defineEmits(['retry'])
 </script>
 
-<template>
-  <div class="error">
-    <h2>エラー発生 😢</h2>
-    <p>{{ message }}</p>
+<style scoped>
+.error-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+  gap: 16px;
+}
 
-    <!-- <button @click="emit('retry')">もう一度試す</button> -->
-    <button
-      @click="emit('retry')"
-      class="group h-10 select-none rounded-[4px] bg-orange-600 px-4 leading-10 text-zinc-50 shadow-[0_-1px_0_1px_#7c2d12_inset,0_0_0_1px_#c2410c_inset,0_0.5px_0_1.5px_#fb923c_inset] hover:bg-orange-700 active:bg-orange-800 active:shadow-[-1px_0px_1px_0px_rgba(0,0,0,.2)_inset,1px_0px_1px_0px_rgba(0,0,0,.2)_inset,0px_0.125rem_0px_0px_rgba(0,0,0,.2)_inset]"
-    >
-      <span class="block group-active:[transform:translate3d(0,1px,0)]">もう一度</span>
-    </button>
-  </div>
-</template>
+/* マスコット */
+.mascot-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mascot-img {
+  width: 55%;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
+  animation: sadShake 2s ease-in-out infinite;
+}
+
+@keyframes sadShake {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-3deg);
+  }
+  40% {
+    transform: rotate(3deg);
+  }
+  60% {
+    transform: rotate(-2deg);
+  }
+  80% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.mascot-shadow {
+  width: 40%;
+  height: 12px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  margin-top: -8px;
+}
+
+/* エラーカード */
+.error-card {
+  background: white;
+  border: 2.5px solid #fca5a5;
+  border-radius: 20px;
+  padding: 16px 24px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.error-title {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #ef4444;
+  margin-bottom: 8px;
+}
+
+.error-message {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #6b7280;
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+/* ボタン */
+.retry-btn {
+  margin-top: 4px;
+  padding: 12px 32px;
+  width: 100%;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  color: white;
+  font-size: 1rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.retry-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
+}
+</style>

@@ -12,7 +12,7 @@
     </div>
     <!-- 結果 -->
     <div v-else-if="status === 'result'" key="result">
-      <ResultView :result="result" :image="image" @retry="reset" />
+      <ResultView :result="result" :image="image" :score="score" @retry="reset" />
     </div>
     <div v-else key="error">
       <ErrorView :message="errorMessage" @retry="reset" />
@@ -32,6 +32,7 @@ import ErrorView from './ErrorView.vue'
 const status = ref('idle')
 const image = ref(null)
 const result = ref(null)
+const score = ref(null)
 const errorMessage = ref('')
 
 let model = null
@@ -71,7 +72,7 @@ async function handlePredict() {
 
     const pred = model.execute(tensor)
 
-    // ✅ 出力を確認しながら処理
+    // 出力を確認しながら処理
     let data
     if (Array.isArray(pred)) {
       // 複数出力の場合は最後のテンソルを使う
@@ -80,18 +81,22 @@ async function handlePredict() {
       data = await pred.data()
     }
 
-    console.log('raw data:', data)
-    console.log('length:', data.length)
-
-    // ✅ 2クラス分類として処理
-    // data[0] = unripe(未熟), data[1] = ripe(完熟)
+    // 2クラス分類として処理
     const unripeScore = data[data.length - 2]
     const ripeScore = data[data.length - 1]
 
-    console.log('unripe:', unripeScore, 'ripe:', ripeScore)
+    // 判定処理と3秒待機を並行して実行
+    const [resultValue] = await Promise.all([
+      Promise.resolve(ripeScore > unripeScore ? 'ripe' : 'notyet'),
+      new Promise((resolve) => setTimeout(resolve, 3000)),
+    ])
 
-    result.value = ripeScore > unripeScore ? 'ripe' : 'notyet'
-    status.value = 'result'
+    score.value = Math.round((ripeScore > unripeScore ? ripeScore : unripeScore) * 100)
+
+    throw new Error('テストエラー')
+
+    // result.value = resultValue
+    // status.value = 'result'
   } catch (e) {
     errorMessage.value = e.message
     status.value = 'error'
@@ -121,6 +126,7 @@ function reset() {
   status.value = 'idle'
   image.value = null
   result.value = null
+  score.value = null
   errorMessage.value = ''
 }
 </script>

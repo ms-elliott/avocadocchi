@@ -6,8 +6,11 @@
 
 html,
 body {
-  background: #f1f8e9;
   font-family: sans-serif;
+  background: linear-gradient(160deg, #f1f8e9 0%, #fefce8 50%, #f1f8e9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #app {
@@ -120,5 +123,5 @@ a,
 }
 
 .animate-fadeIn {
-  animation: fadeIn 2s ease 4s forwards;
+  animation: fadeIn 2s ease 3.8s forwards;
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="p-4 rounded-xl animate-fadeIn relative">
-    <!-- ✅ 完熟時の紙吹雪 -->
+    <!--  完熟時の紙吹雪 -->
     <canvas v-if="result === 'ripe'" ref="confettiCanvas" class="confetti-canvas" />
 
     <img :src="title" alt="" />
@@ -68,9 +68,16 @@
       </div>
     </div>
     <img :src="message" alt="" />
-
+    <!--  スコア表示 -->
+    <div class="score-wrap">
+      <p class="score-label">{{ result === 'ripe' ? '熟度' : '未熟度' }}</p>
+      <div class="score-bar-wrap">
+        <div class="score-bar" :style="{ width: score + '%' }"></div>
+      </div>
+      <p class="score-num">{{ score }}%</p>
+    </div>
     <div
-      class="bg-white rounded-xl p-4 border-2 border-dashed border-green-300 my-4 animate-fadeIn"
+      class="bg-white rounded-xl p-4 border-2 border-dashed border-green-300 my-5 animate-fadeIn"
     >
       <p>🥑きょうの豆知識✏️</p>
       <br />
@@ -89,7 +96,7 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 
-const { result } = defineProps({ result: String, image: String })
+const { result, image, score } = defineProps({ result: String, image: String, score: Number })
 const emit = defineEmits(['retry'])
 
 const title = computed(() => (result === 'ripe' ? '/img/msg_ripe1.png' : '/img/msg_unripe1.png'))
@@ -175,6 +182,55 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.score-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  /* padding: 0 16px; */
+}
+
+.score-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.score-bar-wrap {
+  flex: 1;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.score-bar {
+  height: 100%;
+  border-radius: 99px;
+  background: v-bind(
+    'result === "ripe" ? "linear-gradient(90deg, #86efac, #4ade80)" : "linear-gradient(90deg, #fcd34d, #f59e0b)"'
+  );
+  animation: scoreGrow 1s ease-out forwards;
+  width: 0%;
+}
+
+@keyframes scoreGrow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: v-bind('score + "%"');
+  }
+}
+
+.score-num {
+  font-size: 1rem;
+  font-weight: 900;
+  color: v-bind('result === "ripe" ? "#4ade80" : "#f59e0b"');
+  white-space: nowrap;
+}
+
 .confetti-canvas {
   position: fixed;
   inset: 0;
