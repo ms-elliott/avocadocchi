@@ -93,10 +93,10 @@ async function handlePredict() {
 
     score.value = Math.round((ripeScore > unripeScore ? ripeScore : unripeScore) * 100)
 
-    throw new Error('テストエラー')
+    // throw new Error('テストエラー')
 
-    // result.value = resultValue
-    // status.value = 'result'
+    result.value = resultValue
+    status.value = 'result'
   } catch (e) {
     errorMessage.value = e.message
     status.value = 'error'

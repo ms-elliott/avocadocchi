@@ -12,8 +12,7 @@
       <p class="error-message">{{ props.message }}</p>
     </div>
 
-    <!-- ボタン -->
-    <button @click="emit('retry')" class="retry-btn">🔄 もう一度試す</button>
+    <button class="btn btn-red" @click="emit('retry')">もう一度試す</button>
   </div>
 </template>
 
@@ -97,22 +96,6 @@ const emit = defineEmits(['retry'])
   color: #6b7280;
   line-height: 1.6;
   word-break: break-all;
-}
-
-/* ボタン */
-.retry-btn {
-  margin-top: 4px;
-  padding: 12px 32px;
-  width: 100%;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #f87171, #ef4444);
-  color: white;
-  font-size: 1rem;
-  font-weight: 800;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
 }
 
 .retry-btn:active {

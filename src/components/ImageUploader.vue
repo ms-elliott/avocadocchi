@@ -120,7 +120,7 @@ const handlePredict = () => {
   </div>
   <transition name="fade" mode="out-in">
     <div v-if="preview">
-      <button class="predict-btn" @click="handlePredict" :disabled="props.status !== 'idle'">
+      <button class="btn btn-green" @click="handlePredict" :disabled="props.status !== 'idle'">
         判定する
       </button>
     </div>
@@ -131,15 +131,6 @@ const handlePredict = () => {
 .preview img {
   width: 100%;
   border-radius: 16px;
-}
-
-.predict-btn {
-  margin-top: 12px;
-  padding: 12px;
-  width: 100%;
-  border-radius: 16px;
-  background: #66bb6a;
-  color: white;
 }
 
 /* アボカドアニメーション */

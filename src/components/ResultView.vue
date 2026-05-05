@@ -70,7 +70,7 @@
     <img :src="message" alt="" />
     <!--  スコア表示 -->
     <div class="score-wrap">
-      <p class="score-label">{{ result === 'ripe' ? '熟度' : '未熟度' }}</p>
+      <p class="score-label">信頼度</p>
       <div class="score-bar-wrap">
         <div class="score-bar" :style="{ width: score + '%' }"></div>
       </div>
@@ -84,12 +84,7 @@
       {{ randomTip }}
     </div>
 
-    <button
-      @click="emit('retry')"
-      class="group h-10 select-none rounded-[4px] bg-orange-600 px-4 my-3 leading-10 text-zinc-50 shadow-[0_-1px_0_1px_#7c2d12_inset,0_0_0_1px_#c2410c_inset,0_0.5px_0_1.5px_#fb923c_inset] hover:bg-orange-700 active:bg-orange-800 active:shadow-[-1px_0px_1px_0px_rgba(0,0,0,.2)_inset,1px_0px_1px_0px_rgba(0,0,0,.2)_inset,0px_0.125rem_0px_0px_rgba(0,0,0,.2)_inset]"
-    >
-      <span class="block group-active:[transform:translate3d(0,1px,0)]">もう一度</span>
-    </button>
+    <button class="btn btn-orange" @click="emit('retry')">もう一度</button>
   </div>
 </template>
 
@@ -187,7 +182,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   margin: 8px 0;
-  /* padding: 0 16px; */
+  padding: 0 16px;
 }
 
 .score-label {
@@ -209,7 +204,7 @@ onUnmounted(() => {
   height: 100%;
   border-radius: 99px;
   background: v-bind(
-    'result === "ripe" ? "linear-gradient(90deg, #86efac, #4ade80)" : "linear-gradient(90deg, #fcd34d, #f59e0b)"'
+    'result === "ripe" ? "linear-gradient(90deg, #fcd34d, #f59e0b)" : "linear-gradient(90deg, #86efac, #4ade80)"'
   );
   animation: scoreGrow 1s ease-out forwards;
   width: 0%;
@@ -227,7 +222,7 @@ onUnmounted(() => {
 .score-num {
   font-size: 1rem;
   font-weight: 900;
-  color: v-bind('result === "ripe" ? "#4ade80" : "#f59e0b"');
+  color: v-bind('result === "ripe" ? "#f59e0b" : "#4ade80"');
   white-space: nowrap;
 }
 
