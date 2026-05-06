@@ -14,11 +14,23 @@ body {
 }
 
 #app {
-  max-width: 1280px;
+  max-width: 430px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.2rem;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   font-weight: normal;
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    /* grid-template-columns: 1fr 1fr; ← 削除 */
+    padding: 0 1.2rem;
+  }
 }
 
 a,
