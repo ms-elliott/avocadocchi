@@ -118,6 +118,10 @@ function handleReset() {
     <div v-else>
       <ErrorView :message="errorMessage" @retry="handleReset" />
     </div>
+
+    <div class="footer">
+      <p style="animation: fadeIn 2s ease 3.5s forwards; opacity: 0">&copy; 2026 ms-elliott</p>
+    </div>
   </div>
 </template>
 
@@ -125,5 +129,12 @@ function handleReset() {
 .preview img {
   width: 100%;
   border-radius: 16px;
+}
+
+.footer {
+  padding-top: 10px;
+  font-size: 0.78rem;
+  color: #9ca3af;
+  font-weight: 700;
 }
 </style>

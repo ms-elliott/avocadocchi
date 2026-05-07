@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 rounded-xl animate-fadeIn relative">
+  <div class="p-4 rounded-xl relative">
     <!--  完熟時の紙吹雪 -->
     <canvas v-if="result === 'ripe'" ref="confettiCanvas" class="confetti-canvas" />
 
@@ -76,9 +76,7 @@
       </div>
       <p class="score-num">{{ score }}%</p>
     </div>
-    <div
-      class="bg-white rounded-xl p-4 border-2 border-dashed border-green-300 my-5 animate-fadeIn"
-    >
+    <div class="bg-white rounded-xl p-4 border-2 border-dashed border-green-300 my-5">
       <p>🥑きょうの豆知識✏️</p>
       <br />
       {{ randomTip }}

@@ -1,14 +1,19 @@
 <script setup>
+// ===== 画像アップロード・プレビューコンポーネント =====
+// - クリックでファイル選択
+// - ドラッグ&ドロップで画像を選択（キャプチャフェーズで捕捉）
+// - v-modelで親コンポーネントにbase64画像を渡す
 import { ref, watch, onMounted } from 'vue'
 
 const props = defineProps({ modelValue: String, status: String })
-
 const emit = defineEmits(['update:modelValue', 'predict'])
+
 const preview = ref(null)
 const isDragging = ref(false)
 const fileInput = ref(null)
-// const loading = ref(false)
+const uploadZone = ref(null)
 
+// 親からmodelValueが変更された時にプレビューを同期
 watch(
   () => props.modelValue,
   (val) => {
@@ -17,23 +22,18 @@ watch(
   { immediate: true },
 )
 
+// ファイル選択ダイアログを開く
 function triggerFileInput() {
   fileInput.value.click()
 }
 
+// ファイル選択時の処理
 function onFileChange(e) {
   const file = e.target.files[0]
-
-  if (!file) return
-
-  const reader = new FileReader()
-  reader.onload = (ev) => {
-    preview.value = ev.target.result
-    emit('update:modelValue', preview.value)
-  }
-  reader.readAsDataURL(file)
+  if (file) loadPreview(file)
 }
 
+// ファイルをbase64に変換してプレビューと親に渡す
 function loadPreview(file) {
   const reader = new FileReader()
   reader.onload = (e) => {
@@ -43,8 +43,9 @@ function loadPreview(file) {
   reader.readAsDataURL(file)
 }
 
-const uploadZone = ref(null)
-
+// ドラッグ&ドロップの処理
+// ブラウザのデフォルト動作（新タブで画像を開く）を防ぐため
+// キャプチャフェーズでイベントを捕捉する
 onMounted(() => {
   uploadZone.value.addEventListener(
     'drop',
@@ -53,21 +54,14 @@ onMounted(() => {
       e.stopPropagation()
       isDragging.value = false
       const f = e.dataTransfer.files[0]
-      console.log('file:', f)
       if (f) loadPreview(f)
     },
-    true,
-  ) // ✅ キャプチャフェーズで捕捉
+    true, // キャプチャフェーズ
+  )
 })
 
-function onDrop(e) {
-  isDragging.value = false
-  const f = e.dataTransfer.files[0]
-  console.log('file:', f)
-  if (f) loadPreview(f)
-}
-
-const handlePredict = () => {
+// 判定ボタン押下時に親へ通知
+function handlePredict() {
   emit('predict')
 }
 </script>
@@ -75,21 +69,13 @@ const handlePredict = () => {
 <template>
   <div
     ref="uploadZone"
-    class="upload-zone"
+    class="upload-zone animate-uploader-fadeIn"
     :class="{ dragging: isDragging, 'has-image': preview }"
     @dragover.prevent.stop="isDragging = true"
     @dragleave.prevent="isDragging = false"
-    @drop.prevent.stop="onDrop"
     @click="props.status === 'idle' && triggerFileInput()"
   >
-    <!-- <div
-    class="upload-zone"
-    :class="{ dragging: isDragging, 'has-image': preview }"
-    @dragover.prevent="isDragging = true"
-    @dragleave.prevent="isDragging = false"
-    @drop.prevent.stop="onDrop"
-    @click="props.status === 'idle' && triggerFileInput()"
-  > -->
+    <!-- 非表示のファイル入力 -->
     <input
       ref="fileInput"
       type="file"
@@ -100,7 +86,7 @@ const handlePredict = () => {
     />
 
     <transition name="fade" mode="out-in">
-      <!-- 未選択 -->
+      <!-- 未選択状態 -->
       <div v-if="!preview" key="empty" class="upload-empty">
         <div class="upload-icon-wrap">
           <span class="upload-camera">📸</span>
@@ -111,16 +97,25 @@ const handlePredict = () => {
         <p class="upload-sub">ドラッグ＆ドロップもOK</p>
       </div>
 
-      <!-- プレビュー -->
+      <!-- プレビュー表示 -->
       <div v-else key="preview" class="preview-inner">
         <img :src="preview" class="preview-img" alt="preview" />
-        <div v-if="props.status === 'idle'" class="preview-overlay"><span>📷 変える</span></div>
+        <div v-if="props.status === 'idle'" class="preview-overlay">
+          <span>📷 変える</span>
+        </div>
       </div>
     </transition>
   </div>
+
+  <!-- 判定ボタン（画像選択後に表示） -->
   <transition name="fade" mode="out-in">
     <div v-if="preview">
-      <button class="btn btn-green" @click="handlePredict" :disabled="props.status !== 'idle'">
+      <button
+        class="btn btn-green"
+        @click="handlePredict"
+        :disabled="props.status !== 'idle'"
+        style="margin-top: 15px"
+      >
         判定する
       </button>
     </div>
@@ -128,23 +123,6 @@ const handlePredict = () => {
 </template>
 
 <style scoped>
-.preview img {
-  width: 100%;
-  border-radius: 16px;
-}
-
-/* アボカドアニメーション */
-.avocado {
-  font-size: 48px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .upload-zone {
   width: 100%;
   min-height: 200px;
@@ -159,29 +137,36 @@ const handlePredict = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
 }
+
 .upload-zone:hover,
 .upload-zone.dragging {
   border-color: #f4a261;
   transform: scale(1.02);
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.13);
 }
+
 .hidden {
   display: none;
 }
+
 .upload-empty {
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
 }
+
 .upload-icon-wrap {
   position: relative;
   display: inline-block;
   margin-bottom: 0.8rem;
 }
+
 .upload-camera {
-  font-size: 3rem;
+  font-size: 2.5rem;
   display: block;
 }
+
 .upload-ring {
   position: absolute;
   border-radius: 50%;
@@ -191,6 +176,7 @@ const handlePredict = () => {
   transform: translate(-50%, -50%);
   animation: ringPulse 2s ease-out infinite;
 }
+
 .ring1 {
   width: 60px;
   height: 60px;
@@ -201,6 +187,7 @@ const handlePredict = () => {
   height: 80px;
   animation-delay: 0.6s;
 }
+
 @keyframes ringPulse {
   0% {
     transform: translate(-50%, -50%) scale(0.8);
@@ -211,27 +198,32 @@ const handlePredict = () => {
     opacity: 0;
   }
 }
+
 .upload-main {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
   color: #374151;
 }
+
 .upload-sub {
   font-size: 0.78rem;
   color: #9ca3af;
   margin-top: 4px;
   font-weight: 700;
 }
+
 .preview-inner {
   position: relative;
   width: 100%;
 }
+
 .preview-img {
   width: 100%;
   max-height: 260px;
   object-fit: contain;
   display: block;
 }
+
 .preview-overlay {
   position: absolute;
   inset: 0;
@@ -244,10 +236,12 @@ const handlePredict = () => {
   color: transparent;
   font-size: 1rem;
 }
+
 .upload-zone:hover .preview-overlay {
   background: rgba(0, 0, 0, 0.4);
   color: #fff;
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s;

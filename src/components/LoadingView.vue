@@ -2,7 +2,7 @@
   <div class="loading-wrap">
     <!-- マスコット -->
     <div class="mascot-wrap">
-      <img src="/img/avo_thinking.png" class="mascot-img animate-thinking" />
+      <img src="/img/avo_thinking.png" class="mascot-img" />
       <div class="mascot-shadow"></div>
     </div>
 
@@ -25,17 +25,7 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue'
-
-const dots = ref('.')
-
-onMounted(() => {
-  setInterval(() => {
-    dots.value = dots.value.length >= 3 ? '.' : dots.value + '.'
-  }, 500)
-})
-</script>
+<!-- scriptは不要なので削除 -->
 
 <style scoped>
 .loading-wrap {
@@ -46,7 +36,6 @@ onMounted(() => {
   gap: 12px;
 }
 
-/* マスコット */
 .mascot-wrap {
   position: relative;
   display: flex;
@@ -96,7 +85,6 @@ onMounted(() => {
   }
 }
 
-/* テキスト */
 .loading-title {
   font-size: 1.2rem;
   font-weight: 800;
@@ -109,10 +97,10 @@ onMounted(() => {
   font-weight: 700;
 }
 
-/* ドットローダー */
 .dot-loader {
   display: flex;
   gap: 8px;
+  margin: 20px 0;
 }
 
 .dot {
@@ -135,7 +123,6 @@ onMounted(() => {
   }
 }
 
-/* プログレスバー */
 .progress-wrap {
   width: 70%;
   height: 8px;

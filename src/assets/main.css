@@ -1,9 +1,9 @@
-/* @import './base.css'; */
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ===== ベース ===== */
 html,
 body {
   font-family: sans-serif;
@@ -19,18 +19,6 @@ body {
   padding: 1.2rem;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   font-weight: normal;
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    /* grid-template-columns: 1fr 1fr; ← 削除 */
-    padding: 0 1.2rem;
-  }
 }
 
 a,
@@ -54,9 +42,7 @@ a,
   }
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    padding: 0 1.2rem;
   }
 }
 
@@ -115,6 +101,8 @@ a,
   transform: none;
 }
 
+/* ===== アニメーション ===== */
+
 /* 下からフェード */
 .fade-up-enter-active {
   transition: all 0.5s ease;
@@ -158,7 +146,7 @@ a,
   animation: titleFade 0.6s ease;
 }
 
-/* キャラ登場（ポン） */
+/* キャラ登場（ポン）→ 浮遊へ移行 */
 @keyframes entryPop {
   0% {
     transform: scale(0.5) translateY(20px);
@@ -179,7 +167,7 @@ a,
     float 4s ease-in-out 4s infinite;
 }
 
-/* フェード */
+/* フェードイン */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -190,5 +178,9 @@ a,
 }
 
 .animate-fadeIn {
-  animation: fadeIn 2s ease 3.8s forwards;
+  animation: fadeIn 2s ease 2.5s forwards;
+}
+
+.animate-uploader-fadeIn {
+  animation: fadeIn 2s ease 3.5s forwards;
 }
