@@ -13,20 +13,13 @@ https://avocadocchi.vercel.app/
 
 ## 画面キャプチャ
 
-<table style="table-layout: fixed; width: 100%;">
-<tr>
-  <th>トップ画面</th>
-  <th>判定中</th>
-  <th>判定結果(完熟)</th>
-  <th>判定結果(未熟)</th>
-</tr>
-<tr>
-<td><video src="https://github.com/user-attachments/assets/9025b52b-bd39-4dd7-98eb-577dd808daf4"></td>
-<td><video src="https://github.com/user-attachments/assets/dbef94ab-81f2-4b2f-8699-01c95c328a0e"></td>
-<td><video src="https://github.com/user-attachments/assets/43fec265-cffe-4a96-8ae5-1fa4d21d781e"></td>
-<td><video src="https://github.com/user-attachments/assets/3497e115-237d-4f17-bff8-eed5af009f00"></td>
-</tr>
-</table>
+| トップ画面 |　判定中 |
+| ------- | ---- |
+| <video src="https://github.com/user-attachments/assets/9025b52b-bd39-4dd7-98eb-577dd808daf4"> | <video src="https://github.com/user-attachments/assets/dbef94ab-81f2-4b2f-8699-01c95c328a0e"> |
+
+| 判定結果(完熟) |　判定結果(未熟) |
+| ------- | ---- |
+| <video src="https://github.com/user-attachments/assets/43fec265-cffe-4a96-8ae5-1fa4d21d781e"> | <video src="https://github.com/user-attachments/assets/3497e115-237d-4f17-bff8-eed5af009f00"> |
 
 ---
 
